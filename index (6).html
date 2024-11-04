@@ -1,0 +1,69 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flooding Greek Gods</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden; /* Prevent scrolling */
+            background-color: black; /* Black background */
+            color: #00ff00; /* Green text color */
+            font-family: 'Courier New', Courier, monospace; /* Monospace font for code */
+        }
+
+        .falling-word {
+            position: absolute;
+            white-space: nowrap; /* Prevent wrapping */
+            font-size: 20px; /* Font size of the words */
+            opacity: 0.9; /* Opacity for visibility */
+            animation: fall linear infinite; /* Animation for falling */
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(0); /* Start at the top */
+            }
+            100% {
+                transform: translateY(100vh); /* End at the bottom of the viewport */
+            }
+        }
+    </style>
+</head>
+<body>
+    <script>
+        const greekGods = [
+            "Zeus", "Hera", "Poseidon", "Demeter", "Athena", "Apollo",
+            "Artemis", "Ares", "Aphrodite", "Hephaestus", "Hermes",
+            "Hades", "Dionysus", "Hestia", "Persephone", "Eros"
+        ]; // Array of Greek gods' names
+        const columns = 15; // Number of columns of words
+
+        // Function to create a falling word
+        function createFallingWord(index) {
+            const word = document.createElement('div');
+            word.className = 'falling-word'; // Add falling-word class
+            word.style.left = `${Math.random() * 100}vw`; // Random horizontal position
+            word.style.animationDuration = `${Math.random() * 3 + 2}s`; // Random fall duration between 2 and 5 seconds
+
+            // Set the word to a random Greek god name
+            const randomGod = greekGods[Math.floor(Math.random() * greekGods.length)];
+            word.innerHTML = randomGod; // Set the content of the word
+
+            document.body.appendChild(word); // Append the word to the body
+
+            // Remove the word after it falls to avoid cluttering the DOM
+            word.addEventListener('animationend', () => {
+                word.remove();
+            });
+        }
+
+        // Create a word every 500 milliseconds
+        setInterval(() => {
+            for (let i = 0; i < columns; i++) {
+                createFallingWord(i);
+            }
+        }, 500);
+    </script>
+</body>
+</html>
